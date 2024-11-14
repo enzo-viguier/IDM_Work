@@ -4,9 +4,7 @@ public class Villager extends Entities  {
 
 	private int tradeLevel;
 
-
-	public boolean mateWith(  ){}
-
+	public boolean mateWith(Villager villager) {}
 
 }
 

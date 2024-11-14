@@ -1,0 +1,68 @@
+[comment encoding = UTF-8 /]
+[module TpM2MM2T('http://www.eclipse.org/uml2/5.0.0/UML')]
+
+[query public javaType(type:Type):String=
+if (type->isEmpty()) then 'void'
+else if (type.oclIsTypeOf(PrimitiveType) and type.name='Boolean') then 'boolean'
+else if (type.oclIsTypeOf(PrimitiveType) and type.name='String') then 'String'
+else if (type.oclIsTypeOf(PrimitiveType) and type.name='Integer') then 'int'
+else if (type.oclIsTypeOf(PrimitiveType) and type.name='Real') then 'float'
+else type.name endif endif endif endif endif /]
+
+[template public TpTemplate(aModel : Model)]
+[comment @main/]
+
+[for (cl : uml::Class | aModel.allOwnedElements()->filter(Class))]
+	[JavaClassTemplate(cl) /]
+[/for]
+
+[for (intf : uml::Interface | aModel.allOwnedElements()->filter(Interface))]
+	[InterfaceTemplate(intf) /]
+[/for]
+
+}
+
+[/template]
+
+[template public JavaClassTemplate(cl : uml::Class)]
+[file (cl.name.concat('.java'), false, 'UTF-8')]
+package generated;
+
+public[if cl.isAbstract] abstract[/if] class [ cl.name /] [if cl.superClass->size() <> 0]extends [ cl.superClass.name /] [/if][if cl.interfaceRealization->notEmpty()]implements [for (i : InterfaceRealization | cl.interfaceRealization) ][i.contract.name /][if i <> cl.interfaceRealization->asSequence()->last()] , [/if][/for][/if] {
+
+[for (attr : uml::Property | cl.attribute)]
+	[attr.visibility /] [javaType(attr.type) /] [attr.name /];
+[/for]
+
+[for (op : uml::Operation | cl.ownedOperation)]
+[comment]	[op.visibility /] [javaType(op.type) /] [op.name /]([for (param : uml::Parameter | op.ownedParameter)][if param.direction.toString() <> 'return'][javaType(param.type) /] [param.name /][if op.ownedParameter->size() > 2], [/if][/if][/for]) {}[/comment]
+	[op.visibility /] [javaType(op.type) /] [op.name /]([for (param : uml::Parameter | op.ownedParameter)][if param.direction.toString() <> 'return'][javaType(param.type) /] [param.name /][if param <> op.ownedParameter->last() and param <> op.ownedParameter->at(op.ownedParameter->size() - 1)], [/if][/if][/for]) {}
+[/for]
+
+}
+
+[/file]
+[/template]
+
+
+[template public InterfaceTemplate(intf : uml::Interface)]
+[file (intf.name.concat('.java'), false, 'UTF-8')]
+package generated;
+
+public interface [ intf.name /] {
+
+[for (prop : uml::Property | intf.ownedAttribute)]
+	[ prop.visibility /] [ javaType(prop.type) /] [ prop.name /];
+[/for]
+
+[for (op : uml::Operation | intf.ownedOperation)]
+	[op.visibility /] [javaType(op.type) /] [op.name /]([for (param : uml::Parameter | op.ownedParameter)]
+		[javaType(param.type) /] [param.name /][if param <> op.ownedParameter->last()], [/if][/for]);
+[/for]
+
+}
+
+[/file]
+[/template]
+
+
