@@ -1,0 +1,10 @@
+package generated;
+
+public class Employe  extends Person  {
+
+
+	private float salary;
+
+
+}
+

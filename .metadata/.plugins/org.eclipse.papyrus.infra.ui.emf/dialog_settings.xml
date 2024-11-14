@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.papyrus.infra.ui.emf.providers.EMFGraphicalContentProvider_history__platform:/resource/org.eclipse.acceleo.module.sample/src/org/eclipse/acceleo/module/sample/main/model/model.uml:uml:Behavior:method">
+	</section>
+	<section name="org.eclipse.papyrus.infra.ui.emf.providers.EMFGraphicalContentProvider_history__uml:Type:type">
+		<section name="History">
+			<list key="PreviousSelection">
+				<item value="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+				<item value="platform:/resource/org.eclipse.acceleo.module.sample/src/org/eclipse/acceleo/module/sample/main/model/model.uml#_L95E4JzuEe-P-8evlnl1bw"/>
+			</list>
+		</section>
+	</section>
+</section>

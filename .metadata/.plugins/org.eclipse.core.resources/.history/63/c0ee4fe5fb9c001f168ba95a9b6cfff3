@@ -1,0 +1,13 @@
+package generated;
+
+public class Person  extends   {
+
+
+	private String name;
+
+
+	private int age;
+
+
+}
+

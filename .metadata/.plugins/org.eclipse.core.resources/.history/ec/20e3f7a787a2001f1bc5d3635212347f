@@ -1,0 +1,12 @@
+package generated;
+
+public class Employe extends Person  {
+
+	private float salary;
+
+
+	public boolean earnMoreThan(  ){}
+
+
+}
+

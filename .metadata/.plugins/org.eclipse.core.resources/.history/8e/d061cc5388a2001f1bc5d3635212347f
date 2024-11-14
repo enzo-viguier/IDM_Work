@@ -1,0 +1,35 @@
+[comment encoding = UTF-8 /]
+[module TpM2MM2T('http://www.eclipse.org/uml2/5.0.0/UML')]
+
+[query public javaType(type:Type):String=
+if (type->isEmpty()) then 'void'
+else if (type.oclIsTypeOf(PrimitiveType) and type.name='Boolean') then 'boolean'
+else if (type.oclIsTypeOf(PrimitiveType) and type.name='String') then 'String'
+else if (type.oclIsTypeOf(PrimitiveType) and type.name='Integer') then 'int'
+else if (type.oclIsTypeOf(PrimitiveType) and type.name='Real') then 'float'
+else type.name endif endif endif endif endif /]
+
+[template public TpTemplate(aModel : Model)]
+[comment @main/]
+[for (cl : uml::Class | aModel.allOwnedElements()->filter(Class))]
+[file (cl.name.concat('.java'), false, 'UTF-8')]
+package generated;
+
+public class [ cl.name /] [if cl.superClass->size() <> 0]extends [ cl.superClass.name /] [/if] [if cl.interfaceRealization->notEmpty()] implements [ cl.implementedInterface->collect(i | i.name)->join(', ') /][/if] {
+
+[for (attr : uml::Property | cl.attribute)]
+	[attr.visibility /] [javaType(attr.type) /] [attr.name /];
+[/for]
+
+[for (op : uml::Operation | cl.ownedOperation)]
+
+	[op.visibility /] [javaType(op.type) /] [op.name /]([for (param : uml::Parameter | op.ownedParameter)] [/for]){}
+
+[/for]
+
+}
+
+[/file]
+[/for]
+
+[/template]

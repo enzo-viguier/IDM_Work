@@ -1,0 +1,10 @@
+package generated;
+
+public class B {
+
+
+	private int age;
+
+
+}
+
